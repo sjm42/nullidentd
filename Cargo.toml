@@ -1,0 +1,36 @@
+# Cargo.toml
+
+[package]
+name = "nullidentd"
+version = "0.0.1"
+edition = "2021"
+resolver = "2"
+
+
+[dependencies]
+clap = { version = "4", features = ["derive"] }
+tokio = { version = "1", features = ["full"] }
+tokio-stream = { version = "0" }
+tokio-util = { version = "0", features = ["codec"] }
+tracing = { version = "0", features = ["log"] }
+tracing-subscriber = "0"
+
+
+[build-dependencies]
+build-data = "0"
+
+
+[profile.release]
+lto = "fat"
+opt-level = 3
+codegen-units = 1
+
+
+[profile.minsize]
+inherits = "release"
+strip = true
+lto = "fat"
+opt-level = "s"
+panic = "abort"
+
+# EOF
