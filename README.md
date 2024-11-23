@@ -1,2 +1,2 @@
-# nullidentd-rs
+# nullidentd
 Dummy identd in Rust
