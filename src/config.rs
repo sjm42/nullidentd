@@ -13,8 +13,8 @@ pub struct OptsCommon {
     #[arg(short, long)]
     pub trace: bool,
 
-    #[arg(short, long, default_value = "localhost:1113")]
-    pub listen: String,
+    #[arg(short, long, default_value = "localhost:1113", value_delimiter = ',', num_args = 1..)]
+    pub listen: Vec<String>,
     #[arg(long, default_value = "5")]
     pub timeout: u64,
     #[arg(long, default_value = "user")]
@@ -47,5 +47,4 @@ impl OptsCommon {
         debug!("Compiler version: {}", env!("RUSTC_VERSION"));
     }
 }
-
 // EOF
