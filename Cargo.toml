@@ -2,8 +2,8 @@
 
 [package]
 name = "nullidentd"
-version = "0.0.2"
-edition = "2021"
+version = "1.0.0"
+edition = "2024"
 resolver = "2"
 
 

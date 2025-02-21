@@ -267,7 +267,7 @@ dependencies = [
 
 [[package]]
 name = "nullidentd"
-version = "0.0.2"
+version = "1.0.0"
 dependencies = [
  "build-data",
  "clap",
