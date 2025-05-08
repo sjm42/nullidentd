@@ -49,8 +49,9 @@ async fn run_server(listen_addr: String, timeout: u64, ident: String) -> Result<
         let id = ident.clone();
         let listen = listen_addr.clone();
         tokio::spawn(async move {
-            let res = time::timeout(timeout, process_conn(id, &listen, socket, c_addr, cn)).await;
-            if let Err(e) = res {
+            if let Err(e) =
+                time::timeout(timeout, process_conn(id, &listen, socket, c_addr, cn)).await
+            {
                 error!("Connection ({listen})#{cn} timed out : {e}");
             }
         });
@@ -65,7 +66,6 @@ async fn process_conn(
     cn: u64,
 ) -> Result<(), io::Error> {
     info!("New connection ({listen_addr})#{cn} from {addr:?}");
-
     let (sock_r, sock_w) = socket.split();
     let mut reader = FramedRead::new(sock_r, LinesCodec::new_with_max_length(BUF_SZ));
     let mut writer = BufWriter::new(sock_w);
