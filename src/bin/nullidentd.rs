@@ -63,6 +63,7 @@ async fn process_conn(ident: String, mut socket: TcpStream, conn_n: u64) -> Resu
     let mut writer = BufWriter::new(sock_w);
 
     while let Some(Ok(line)) = reader.next().await {
+        debug!("Read: {line:?}");
         let response = format!("{line} : USERID : UNIX : {ident}\r\n");
         writer.write_all(response.as_bytes()).await?;
         writer.flush().await?;
