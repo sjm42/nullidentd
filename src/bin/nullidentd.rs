@@ -63,7 +63,7 @@ async fn process_conn(ident: String, mut socket: TcpStream, conn_n: u64) -> Resu
     while let Some(Ok(line)) = reader.next().await {
         debug!("Rd <-- {line:?}");
         let response = format!("{line} : USERID : UNIX : {ident}\r\n");
-        debug!("Wr --> {response}");
+        debug!("Wr --> {response:?}");
         writer.write_all(response.as_bytes()).await?;
         writer.flush().await?;
     }
