@@ -1,6 +1,5 @@
 // bin/nullidentd
 
-use clap::Parser;
 use tokio::{
     io::{self, AsyncWriteExt, BufWriter},
     net::{TcpListener, TcpStream},
@@ -39,7 +38,6 @@ async fn run_server(listen_addr: String, timeout: u64, ident: String) -> Result<
     let listener = TcpListener::bind(&listen_addr).await?;
     info!("Listening on {listen_addr}");
     let mut i: u64 = 0;
-    let timeout = time::Duration::from_secs(timeout);
     loop {
         let (socket, c_addr) = listener.accept().await?;
         i += 1;
@@ -50,8 +48,8 @@ async fn run_server(listen_addr: String, timeout: u64, ident: String) -> Result<
 
         tokio::spawn(async move {
             info!("New connection ({listen})#{conn_n} from {c_addr:?}");
-            if let Err(e) = time::timeout(timeout, process_conn(id, socket, conn_n)).await {
-                error!("Connection ({listen})#{conn_n} timed out : {e}");
+            if let Err(e) = time::timeout(time::Duration::from_secs(timeout), process_conn(id, socket, conn_n)).await {
+                error!("Connection ({listen})#{conn_n} timed out ({timeout}s): {e}");
             }
         });
     }
@@ -63,8 +61,9 @@ async fn process_conn(ident: String, mut socket: TcpStream, conn_n: u64) -> Resu
     let mut writer = BufWriter::new(sock_w);
 
     while let Some(Ok(line)) = reader.next().await {
-        debug!("Read: {line:?}");
+        debug!("Rd <-- {line:?}");
         let response = format!("{line} : USERID : UNIX : {ident}\r\n");
+        debug!("Wr --> {response}");
         writer.write_all(response.as_bytes()).await?;
         writer.flush().await?;
     }

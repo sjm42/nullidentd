@@ -1,5 +1,6 @@
 // lib.rs
 
+pub use clap::Parser;
 pub use tracing::*;
 
 pub use config::*;

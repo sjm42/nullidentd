@@ -1,7 +1,5 @@
 // config.rs
 
-use clap::Parser;
-
 use crate::*;
 
 #[derive(Debug, Default, Parser)]
