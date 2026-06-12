@@ -16,6 +16,21 @@ A size-optimized profile is also available:
 cargo build --profile minsize
 ```
 
+## Development
+
+```sh
+cargo build
+cargo test
+cargo fmt
+cargo clippy --all-targets --all-features
+cargo outdated --root-deps-only
+```
+
+Use `cargo test` for the built-in Rust test suite, `cargo fmt` before
+committing, and `cargo clippy --all-targets --all-features` for lint checks.
+Use `cargo outdated --root-deps-only` when checking whether direct dependencies
+can be updated.
+
 ## Usage
 
 ```
